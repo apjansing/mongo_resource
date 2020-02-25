@@ -1,16 +1,9 @@
-# [Accumulo](https://accumulo.apache.org/) Resource for [Concourse](https://concourse-ci.org/)
+# Custom Resource for [Concourse](https://concourse-ci.org/)
 
-- [Accumulo Resource for [Concourse](https://concourse-ci.org/)](#accumulo-resource-for-concourse)
-  - [What is Accumulo?](#what-is-accumulo)
+- [Custom Resource for Concourse](#custom-resource-for-concourse)
   - [How the Resource is Written](#how-the-resource-is-written)
 
 This repository is to hold my second ever Concourse resource. I have written one for work and wanted to see if I could do it again for a database I once used and so I could potentially help someone else write their own Concourse resource.
-
-## What is Accumulo?
-
-To quickly summarize what Accumulo is, I've stitched together a couple statements from [Accumulo's site and documentation](https://accumulo.apache.org/).
-
-> Accumulo is distributed key/value store that has cell-based access controls and server-side programming constructs (called [Iterators](https://accumulo.apache.org/docs/2.x/development/iterators)) that allow users to implement custom retrieval or computational purpose within Accumulo TabletServers.
 
 ## How the Resource is Written
 
