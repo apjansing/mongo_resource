@@ -11,7 +11,8 @@ def _check(instream, destpath = None, username="admin",
                     password="admin"):
     payload = json.load(instream)
     msg('Payload {}', payload)
-    host=f'{payload["url"]}:{payload["port"]}'
+    source = payload["source"]
+    host=f'{source["url"]}:{source["port"]}'
     uri = "mongodb://%s:%s@%s" % (quote_plus(username), 
                                         quote_plus(password), host)
                                         
@@ -24,10 +25,10 @@ def _check(instream, destpath = None, username="admin",
     except ConnectionFailure:
         msg("Server not available")                                        
     # print(connection.test.trigger.find().next())
-    db = connection[payload['db']]
+    db = connection[source['db']]
 
-    collection = db[payload['collection']]
-    find = payload['find']
+    collection = db[source['collection']]
+    find = source['find']
     cursor = collection.find(dict(find))
     for _ in range(cursor.count()):
         print(cursor.next())

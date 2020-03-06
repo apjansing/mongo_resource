@@ -1,0 +1,38 @@
+resource_types:
+  - name: mongo-resource
+    type: registry-image
+    source:
+      repository: apjansing/mongodb-resource
+resources:
+  - name: common-image
+    type: registry-image
+    source:
+      repository: apjansing/mongodb-resource
+  - name: mongo-database
+    type: mongo-resource
+    source:
+      url: "0.0.0.0"
+      port: 27017
+      db: "test"
+      collection: "trigger"
+      find: ""
+jobs:
+  - name: do the thing
+    plan:
+    - in_parallel:
+      - get: common-image
+      - get: mongo-database
+        trigger: true
+    - task: do the thing
+      image: common-image
+      config:
+        platform: linux
+        inputs:
+          - name: mongo-database
+        run:
+            path: bash
+            args:
+            - -c
+            - |
+              echo "I don't do anything yet!"
+    
