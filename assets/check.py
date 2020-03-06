@@ -1,22 +1,43 @@
 import json
 import sys
-import gdelt
+import pymongo as pm
+from pymongo.errors import ConnectionFailure
+from urllib.parse import quote_plus
 
 def msg(msg, *args, **kwargs):
     print(msg.format(*args, **kwargs), file=sys.stderr)
 
-def _check(instream, destpath = None):
+def _check(instream, destpath = None, username="admin", 
+                    password="admin"):
     payload = json.load(instream)
     msg('Payload {}', payload)
-    source = payload['source']
-    gd = gdelt.gdelt(version = source['version'])
-    gd.schema('events')
-    return gd.Search(source['date_start'], source['date_end'], output='json' ,table='events', coverage=True, translation=False)[0]
+    host=f'{payload["url"]}:{payload["port"]}'
+    uri = "mongodb://%s:%s@%s" % (quote_plus(username), 
+                                        quote_plus(password), host)
+                                        
+
+    connection = pm.MongoClient(uri)
+    msg('Connection {}', connection)
+    try:
+        # The ismaster command is cheap and does not require auth.
+        connection.admin.command('ismaster')
+    except ConnectionFailure:
+        msg("Server not available")                                        
+    # print(connection.test.trigger.find().next())
+    db = connection[payload['db']]
+
+    collection = db[payload['collection']]
+    find = payload['find']
+    cursor = collection.find(dict(find))
+    for _ in range(cursor.count()):
+        print(cursor.next())
+    
 
 if __name__ == "__main__":
-    try:
-        destpath = sys.argv[1] or None
-        print(_check(sys.stdin, destpath))
-    except:
+    if len(sys.argv) > 1:
+        # print(_check(sys.stdin, sys.argv[1]))
+        _check(sys.stdin, sys.argv[1])
+    else:
         with open('secret.json', 'rb') as f:
-            print(_check(f))
+            # print(_check(f))
+            _check(f)
