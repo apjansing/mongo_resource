@@ -11,8 +11,8 @@ resources:
   - name: mongo-database
     type: mongo-resource
     source:
-      url: "0.0.0.0"
-      port: 27017
+      url: "mongo"
+      port: "27017"
       db: "test"
       collection: "trigger"
       find: ""
