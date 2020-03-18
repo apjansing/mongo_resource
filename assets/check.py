@@ -1,13 +1,15 @@
+#!/usr/local/bin/python
 import json
 import sys
 import pymongo as pm
+from bson.json_util import dumps as mongo_dumps
 from pymongo.errors import ConnectionFailure
 from urllib.parse import quote_plus
 
 def msg(msg, *args, **kwargs):
     print(msg.format(*args, **kwargs), file=sys.stderr)
 
-def _check(instream, destpath = None, username="admin", 
+def _check(instream, username="admin", 
                     password="admin"):
     payload = json.load(instream)
     msg('Payload {}', payload)
@@ -31,14 +33,13 @@ def _check(instream, destpath = None, username="admin",
     find = source['find']
     cursor = collection.find(dict(find))
     for _ in range(cursor.count()):
-        print(cursor.next())
+        # print(mongo_dumps(cursor.next()))
+        current = cursor.next()
+        return [{"versions" : str(current["_id"])}]
     
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        # print(_check(sys.stdin, sys.argv[1]))
-        _check(sys.stdin, sys.argv[1])
-    else:
-        with open('secret.json', 'rb') as f:
-            # print(_check(f))
-            _check(f)
+    print(json.dumps(_check(sys.stdin)))
+    # with open('secret.json', 'rb') as f:
+    #     # print(_check(f))
+    #     print(_check(f))
