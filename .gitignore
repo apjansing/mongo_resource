@@ -1,5 +1,14 @@
 # My custom ignores
 secret.json
+persistence/*
+docker-compose/keys/web/*
+docker-compose/keys/worker/*
+persistence/mongo/db/WiredTiger*
+persistence/mongo/db/*.wt
+persistence/mongo/db/diagnostic.data
+persistence/mongo/db/journal
+persistence/mongo/db/*.lock
+persistence/mongo/db/*.bson
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
