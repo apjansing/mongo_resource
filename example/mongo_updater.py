@@ -1,5 +1,5 @@
 #!/usr/local/bin/python
-import json
+import json as json_module
 import sys
 import os
 from os.path import join
@@ -26,7 +26,7 @@ if __name__ == "__main__":
     filename = join(resource_dir, filename)
     print(filename)
     with open(filename, 'r') as f:
-      json = json.load(f)
+      json = json_module.load(f)
       new_json = json.copy()
       for item in json.items():
         key = item[0]
@@ -35,4 +35,4 @@ if __name__ == "__main__":
           new_json[updated_keys[key]] = reduce(op, json[key])
           print(new_json)
     with open(filename, 'w') as f:
-      json.dump(new_json, f)
+      json_module.dump(new_json, f)
