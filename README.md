@@ -7,6 +7,8 @@ This repository is to hold my second ever Concourse resource. I have written one
 
 ## How the Resource is Written
 
+**!THIS IS AN WORK IN PROGRESS!**
+
 Resources are made up of three parts (as [described here](https://concourse-ci.org/implementing-resource-types.html)):
  * [`/opt/resource/check`](https://concourse-ci.org/implementing-resource-types.html#resource-check)
  * [`/opt/resource/in`](https://concourse-ci.org/implementing-resource-types.html#resource-in)
