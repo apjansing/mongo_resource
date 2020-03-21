@@ -10,6 +10,7 @@ resources:
       repository: apjansing/mongodb-resource
   - name: mongo-database
     type: mongo-resource
+    check_every: 20s
     source:
       url: "mongo"
       port: "27017"
