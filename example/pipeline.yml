@@ -16,11 +16,16 @@ resources:
       db: "test"
       collection: "trigger"
       find: ""
+  - name: this-repo
+    type: git
+    source:
+      uri: git@github.com:apjansing/mongo_resource.git
 jobs:
   - name: do the thing
     plan:
     - in_parallel:
       - get: common-image
+      - get: this-repo
       - get: mongo-database
         trigger: true
     - task: do the thing
@@ -29,10 +34,13 @@ jobs:
         platform: linux
         inputs:
           - name: mongo-database
+          - name: this-repo
         run:
             path: bash
             args:
             - -c
             - |
-              echo "I don't do anything yet!"
+              cd mongo-database
+              ls -la
+              python ../this-repo/example/mongo_updater.py
     
