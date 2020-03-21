@@ -7,6 +7,8 @@ import pymongo as pm
 from pymongo.errors import ConnectionFailure
 from urllib.parse import quote_plus
 from bson.objectid import ObjectId
+from pprint import pprint
+
 
 def get_or_default(dictionary, key, default=''):
   try:
@@ -15,11 +17,16 @@ def get_or_default(dictionary, key, default=''):
     return default
 
 def msg(msg, *args, **kwargs):
-  print(msg.format(*args, **kwargs), file=sys.stderr)
+  if isinstance(msg, dict):
+    pprint(msg, stream=sys.stderr)
+  else:
+    print(msg.format(*args, **kwargs), file=sys.stderr)
 
 def _in(instream, dest='.'):
   payload = json.load(instream)
+  return run(payload, dest)
 
+def run(payload, dest= '.'):
   msg('''IN
   Payload: {}
   ls: {}''', payload, os.listdir(dest))
@@ -41,11 +48,16 @@ def _in(instream, dest='.'):
 
   collection = db[source['collection']]
 
-  concourse_input = payload['version']
-  find = {'_id': ObjectId(concourse_input['version'])}  ### ERROR HERE ObjectId is not JSON serializable... try bson?
-  cursor = collection.find(find)
-  return {"version": cursor.next()}
+  concourse_input = payload['version']['version']
+  find = {'_id': ObjectId(concourse_input)}
+  results = list(collection.find(find))
+  for result in results:
+    result['_id'] = str(result['_id'])
+    filename = join(dest, concourse_input)
+    with open('{}.json'.format(filename), 'w') as f:
+      json.dump(result, f)
+  return {"version": payload['version']}
 
 
 if __name__ == "__main__":
-    print(json.dumps(_in(sys.stdin)))
+  print(json.dumps(_in(sys.stdin, sys.argv[1])))
