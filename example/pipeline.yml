@@ -19,7 +19,7 @@ resources:
   - name: this-repo
     type: git
     source:
-      uri: git@github.com:apjansing/mongo_resource.git
+      uri: https://github.com/apjansing/mongo_resource.git
 jobs:
   - name: do the thing
     plan:
@@ -36,11 +36,6 @@ jobs:
           - name: mongo-database
           - name: this-repo
         run:
-            path: bash
-            args:
-            - -c
-            - |
-              cd mongo-database
-              ls -la
-              python ../this-repo/example/mongo_updater.py
+            path: python
+            args: [this-repo/example/mongo_updater.py, mongo-database]
     

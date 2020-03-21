@@ -20,7 +20,7 @@ if __name__ == "__main__":
     'subtract': 'subtracted'
   }
 
-  filenames = os.listdir()
+  filenames = os.listdir(sys.argv[1])
   for filename in filenames:
     print(filename)
     with open(filename, 'r') as f:
