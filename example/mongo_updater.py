@@ -20,8 +20,10 @@ if __name__ == "__main__":
     'subtract': 'subtracted'
   }
 
-  filenames = os.listdir(sys.argv[1])
+  resource_dir = sys.argv[1]
+  filenames = os.listdir(resource_dir)
   for filename in filenames:
+    filename = join(resource_dir, filename)
     print(filename)
     with open(filename, 'r') as f:
       json = json.load(f)
