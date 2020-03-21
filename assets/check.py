@@ -12,6 +12,9 @@ def get_or_default(dictionary, key, default=''):
     return default
 
 def msg(msg, *args, **kwargs):
+  if isinstance(msg, dict):
+    pprint(msg, stream=sys.stderr)
+  else:
     print(msg.format(*args, **kwargs), file=sys.stderr)
 
 def _check(instream):
@@ -23,8 +26,6 @@ def _check(instream):
     host=f'{source["url"]}:{source["port"]}'
     uri = "mongodb://%s:%s@%s" % (quote_plus(username), 
                                         quote_plus(password), host)
-                                        
-
     connection = pm.MongoClient(uri)
     msg('Connection {}', connection)
     try:
