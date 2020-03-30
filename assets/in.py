@@ -7,20 +7,7 @@ import pymongo as pm
 from pymongo.errors import ConnectionFailure
 from urllib.parse import quote_plus
 from bson.objectid import ObjectId
-from pprint import pprint
-
-
-def get_or_default(dictionary, key, default=''):
-  try:
-    return dictionary[key]
-  except:
-    return default
-
-def msg(msg, *args, **kwargs):
-  if isinstance(msg, dict):
-    pprint(msg, stream=sys.stderr)
-  else:
-    print(msg.format(*args, **kwargs), file=sys.stderr)
+from common import get_or_default, msg, get_payload_data
 
 def _in(instream, dest='.'):
   payload = json.load(instream)
@@ -30,12 +17,7 @@ def run(payload, dest= '.'):
   msg('''IN
   Payload: {}
   ls: {}''', payload, os.listdir(dest))
-  source = payload["source"]
-  username=get_or_default(source, "username", "admin")
-  password=get_or_default(source, "password", "admin")
-  host=f'{source["url"]}:{source["port"]}'
-  uri = "mongodb://%s:%s@%s" % (quote_plus(username), 
-                                      quote_plus(password), host)
+  source, uri = get_payload_data(payload)
 
   connection = pm.MongoClient(uri)
   msg('Connection {}', connection)
@@ -56,7 +38,7 @@ def run(payload, dest= '.'):
     filename = join(dest, concourse_input)
     with open('{}.json'.format(filename), 'w') as f:
       json.dump(result, f)
-  return {"version": payload['version']}
+  return {"version": {"version": concourse_input}}
 
 
 if __name__ == "__main__":
