@@ -33,6 +33,6 @@ if __name__ == "__main__":
         if key in operations.keys():
           op = operations[key]
           new_json[updated_keys[key]] = reduce(op, json[key])
-          print(new_json)
     with open(filename, 'w') as f:
+      print(new_json)
       json_module.dump(new_json, f)
