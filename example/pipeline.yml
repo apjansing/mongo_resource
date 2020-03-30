@@ -36,7 +36,11 @@ jobs:
         inputs:
           - name: mongo-database
           - name: this-repo
+        outputs:
+          - name: mongo-database
         run:
             path: python
             args: [this-repo/example/mongo_updater.py, mongo-database]
-    
+    - put: mongo-database
+      params:
+        path: mongo-database
