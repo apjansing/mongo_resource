@@ -27,7 +27,8 @@ def _check(instream):
     versions = get_versions(payload['version'])
   except:
     versions = {'versions': []}
-  msg('''Payload {}
+  msg('''CHECK
+  Payload {}
   Source {}
   Versions {}
   ''', payload, source, versions)

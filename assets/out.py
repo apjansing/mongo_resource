@@ -29,7 +29,7 @@ def updated_records(path, collection):
 
 def _out(instream, src='.'):
   payload = json.load(instream)
-  msg('''IN
+  msg('''OUT
   Payload: {}
   ls: {}''', payload, os.listdir(src))
   source, uri = get_payload_data(payload)
