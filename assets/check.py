@@ -7,7 +7,7 @@ from pymongo.errors import ConnectionFailure
 from urllib.parse import quote_plus
 from common import get_or_default, msg, get_payload_data
 
-def get_versions(version):
+def get_versions():
   if os.path.exists('versions.json'):
     with open('versions.json', 'r') as f:
       versions = json.load(f)
@@ -24,7 +24,7 @@ def _check(instream):
   payload = json.load(instream)
   source = payload["source"]
   try:
-    versions = get_versions(payload['version'])
+    versions = get_versions()
   except:
     versions = {'versions': []}
   msg('''CHECK
@@ -57,7 +57,8 @@ def _check(instream):
     if id not in versions['versions']:
       update_versions(id, versions)
       return [{"version" : id}]
+  return [{}]
   
 
 if __name__ == "__main__":
-    print(json.dumps(_check(sys.stdin)))
+    print(json.dumps(_check(sys.stdin)))    
