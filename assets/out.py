@@ -48,14 +48,14 @@ def _out(instream, src='.'):
   if os.path.isdir(path):
     updated_records(path, collection)
     files = os.listdir(path)
-    if len(files) == 1: # fix these lines to only return something along the lines of {'version': {'version': OID}}
-      msg('{}', files) # fix these lines to only return something along the lines of {'version': {'version': OID}}
-      return {"version": {"version": files[0].split('.')[0]}} # fix these lines to only return something along the lines of {'version': {'version': OID}}
+    if len(files) == 1:
+      msg('{}', files)
+      return {"version": {"version": files[0].split('.')[0]}}
     msg('123 {}', files)
     return {"version": {"version": [f.split('.')[0] for f in os.listdir(path)]}}
   elif os.path.isfile(path):
     update_record(path, collection)
-    return {"version": {"version": path.split('.')[0]}} # fix these lines to only return something along the lines of {'version': {'version': OID}}
+    return {"version": {"version": path.split('.')[0]}}
   elif not os.path.exists(path):
     msg('File {} not found! Please evaluated your *path* parameter.', path)
     raise Exception
@@ -65,7 +65,3 @@ def _out(instream, src='.'):
 
 if __name__ == "__main__":
   print(json.dumps(_out(sys.stdin, sys.argv[1])))
-  # record = {'_id': '5e76a3617be93507462b81b9', 'subtract': [5.0, 2.0, 4.0], 'subtracted': -1.0}
-  # keys = record.keys() - ['_id']
-  # msg('''Updating {},
-  # keys {}''', record, keys)
