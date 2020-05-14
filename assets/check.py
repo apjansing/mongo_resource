@@ -57,8 +57,6 @@ def _check(instream):
     if id not in versions['versions']:
       update_versions(id, versions)
       return [{"version" : id}]
-  return [{}]
-  
 
 if __name__ == "__main__":
     print(json.dumps(_check(sys.stdin)))    
