@@ -40,6 +40,5 @@ def run(payload, dest= '.'):
       json.dump(result, f)
   return {"version": {"version": concourse_input}}
 
-
 if __name__ == "__main__":
   print(json.dumps(_in(sys.stdin, sys.argv[1])))
