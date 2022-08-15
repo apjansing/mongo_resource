@@ -15,3 +15,9 @@ Resources are made up of three parts (as [described here](https://concourse-ci.o
  * [`/opt/resource/out`](https://concourse-ci.org/implementing-resource-types.html#resource-out)
 
 These resources can be written in any language as long as you can make the `check`, `in`, and `out` executable and be without extensions. I will be writing my `check`, `in`, and `out` in Python.
+
+## Changelog
+
+### v0.1.0
+
+- Test release
